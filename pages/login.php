@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Form con sfondo</title>
+    <title>Login</title>
     <link rel="stylesheet" href="../css/login.css">
     <script src="../js/login_script.js"></script>
 </head>
