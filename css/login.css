@@ -1,10 +1,25 @@
 .mio-form {
-    background-image: url("co2.jpg");
+    background-image: url("../images/co2.jpg");
     background-size: cover;      /* riempie tutto */
-   background-position: center;
+    background-position: center;
     min-height: 100vh;           /* ALTEZZA A TUTTA PAGINA */               
     box-sizing: border-box;
-     padding-top: 200px;
+    padding-top: 200px;
+    font-size: 25px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.mio-form label{
+    color: #000000;            /* Colore del testo */
+    font-weight: bold;      /* Grassetto */
+    display: block;         /* Fa andare il label su una riga separata */
+}
+.mio-form input[type="text"],
+.mio-form input[type="password"] {      
+    font-size: 18px;     /* Dimensione del testo dentro l'input */
+    padding: 12px;       /* Spazio interno per rendere l'input più alto */
+    border-radius: 6px;  /* Angoli arrotondati */
+    border: 1px solid #ccc;
 }
 
 body{
