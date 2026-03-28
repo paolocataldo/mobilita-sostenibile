@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <div class="mio-form">
+    <div class="login_form">
 
         <form action="../includes/check_login.php" method="POST">
 
