@@ -1,7 +1,7 @@
 <?php
 
 include "../config.php";
-
+//fare le funzioni principali: sessione, logout, registrazione
 if (isset($_POST['username']) && isset($_POST['password'])) {
     $username = $_POST['username'];
     $password = md5($_POST['password']); 
