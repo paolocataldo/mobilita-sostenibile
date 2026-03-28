@@ -14,7 +14,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 
     if (!$query) {
         die("Errore query: " . mysqli_error($conn));
-    } difhoighiso
+    } 
 
     $result = mysqli_fetch_assoc($query);
 
