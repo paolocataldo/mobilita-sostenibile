@@ -1,0 +1,13 @@
+.mio-form {
+    background-image: url("co2.jpg");
+    background-size: cover;      /* riempie tutto */
+   background-position: center;
+    min-height: 100vh;           /* ALTEZZA A TUTTA PAGINA */               
+    box-sizing: border-box;
+     padding-top: 200px;
+}
+
+body{
+  text-align: center;
+   margin: 0;
+}
