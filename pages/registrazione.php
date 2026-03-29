@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <meta charset="UFT-8">
+    <meta charset="UTF-8">
     <title>Login</title>
     <link rel="stylesheet" href="../css/registrazione.css">
     <script src="../js/registrazione_script.js"></script>
