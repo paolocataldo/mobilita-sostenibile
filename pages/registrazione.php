@@ -21,7 +21,7 @@
             <input type="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required><br><br>
             <label for="conferma_password">Conferma Password</label>
             <input type="password" name="conferma_password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"><br><br>
-
+            <input type="submit" value="Registrati">
         </form>
     </div>
 </body>
