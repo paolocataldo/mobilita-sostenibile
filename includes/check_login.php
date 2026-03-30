@@ -20,6 +20,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 
     if($result){
         echo "Login effettuato con successo!";
+        header("Location: ../pages/pagina_privata.php");
     } else{
         echo "Credenziali errate!";
         echo '<br><a href="../pages/login.php">Riprova login</a>';
