@@ -1,0 +1,66 @@
+.login_form {
+    background-image: url("../images/co2.jpg");
+    background-size: cover;      /* riempie tutto */
+    background-position: center;
+    min-height: 100vh;           /* ALTEZZA A TUTTA PAGINA */               
+    box-sizing: border-box;
+    padding-top: 200px;
+    font-size: 25px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.login_form label{
+    color: #000000;            /* Colore del testo */
+    font-weight: bold;      /* Grassetto */
+    display: block;         /* Fa andare il label su una riga separata */
+}
+.login_form input[type="text"],
+.login_form input[type="password"] {      
+    font-size: 18px;     /* Dimensione del testo dentro l'input */
+    padding: 12px;       /* Spazio interno per rendere l'input più alto */
+    border-radius: 6px;  /* Angoli arrotondati */
+    border: 1px solid #ccc;
+}
+
+.login_form input[type="submit"]{
+  width: 100px;
+  padding: 5px; /* Aumenta l'altezza e lo spazio interno */
+  font-size: 15px;
+  font-weight: bold;
+  border-radius: 8px;  /* Angoli arrotondati */
+  cursor: pointer;   /* Cambia il cursore al passaggio del mouse */
+}
+
+.login_form input[type="submit"]:hover {
+    background-color: #c3def1; /* Cambia colore quando ci passi sopra */
+    transform: scale(1.05);    /* Leggero ingrandimento al passaggio del mouse */
+}
+
+body{
+  text-align: center;
+   margin: 0;
+}
+
+/* Contenitore link */
+.links {
+    margin-top: 30px;  
+    font-size: 15px;
+    display: flex;      
+    flex-direction: column;
+    gap: 10px;          
+    align-items: center; 
+}
+
+/* Stile singoli link */
+.links a {
+    color: #000000;       /* bianco per contrasto sullo sfondo azzurro */
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.links a:hover {
+    color: #003366;       /* blu scuro al passaggio del mouse */
+    text-decoration: underline;
+    cursor: pointer;
+}
