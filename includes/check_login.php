@@ -7,7 +7,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 
     $sql = "SELECT id, username, email, password, ruolo";
     $sql .= " FROM utenti";
-    $sql .= " WHERE username = '$username' AND password = '$password'";
+    $sql .= " WHERE username = '$username' AND password = '$password' AND account_activation_hash IS NULL";
 
     $query = mysqli_query($conn, $sql);
 
@@ -33,7 +33,7 @@ exit();*/
             echo "Ruolo non valido!";
         }
     } else{
-        echo "Credenziali errate!";
+        echo "Credenziali errate, o account non attivato";
         echo '<br><a href="../pages/login.php">Riprova login</a>';
     }
 } else {

@@ -43,8 +43,30 @@ if($row['email_esiste'] || $row['username_esiste']){
     $inserimento = "INSERT INTO utenti (id, username, email, password, ruolo, account_activation_hash)
                     VALUES(NULL, '$username', '$email', '$password', '$ruolo', '$activation_token_hash')";
     $result = mysqli_query($conn, $inserimento);
-    if($result) echo "Registrazione completata";
-    else echo "Errore nell'inserimento: " . mysqli_error($conn);
+    if($result){
+        echo "Registrazione completata. Perfavore controlla l'email per attivare l'account.";
+        //manda email attivazione
+        $mail = require __DIR__ . "/mailer.php";
+        $mail->setFrom($_ENV['SMTP_USER'], "Paolo Cataldo");
+        $mail->addAddress($_POST["email"]);
+        $mail->Subject = "Attivazione Account";
+        $mail->Body = <<<END
+
+        Clicca <a href="http://localhost/Cataldo/mobilita_sostenibile/includes/attiva_account.php?token=$activation_token">qui</a> 
+        per attivare il tuo account.
+
+        END;
+
+        try{
+            $mail->send();
+        } catch(Exception $e){
+            echo "Il messaggio non è stato inviato. Errore mailer: {$mail->ErrorInfo}";
+            exit;
+        }
+    }
+    else{
+        echo "Errore nell'inserimento: " . mysqli_error($conn);
+    } 
 }
 
 
