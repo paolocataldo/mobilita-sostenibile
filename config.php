@@ -1,8 +1,8 @@
 <?php
-$host = 'localhost';
-$user = 'root';
+$host = $_ENV['DB_HOST'];
+$user = $_ENV['DB_USER'];
 $pass = '';
-$dbname = 'mobilita_sostenibile';
+$dbname = $_ENV['DB_NAME'];
 
 $conn = mysqli_connect($host, $user, $pass, $dbname);
 

@@ -14,7 +14,7 @@ $query = mysqli_query($conn, $sql);
 
 if(mysqli_affected_rows($conn)){
     $mail = require __DIR__ . "/mailer.php";
-    $mail->setFrom("paolo.cataldo0722@gmail.com", "Paolo Cataldo");
+    $mail->setFrom($_ENV['SMTP_USER'], "Paolo Cataldo");
     $mail->addAddress($email);
     $mail->Subject = "Reset Password";
     $mail->Body = <<<END

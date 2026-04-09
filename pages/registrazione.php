@@ -14,9 +14,9 @@
             <label for="username">Username</label>
             <input type="text" name="username" id="username" required><br><br>
             <label for="email">Email</label>
-            <input type="email" name="email" id="email" pattern="[A-Za-z0-9._%+\-]+@(studenti\.itisavogadro\.it|itisavogadro\.it)$" required><br><br> <!-- Sono valide solo le email istituzionali -->
+            <input type="email" name="email" id="email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" required><br><br> <!-- Sono valide solo le email istituzionali -->
             <label for="conferma_email">Conferma Email</label>
-            <input type="email" name="conferma_email" id="conferma_email" pattern="[A-Za-z0-9._%+\-]+@(studenti\.itisavogadro\.it|itisavogadro\.it)$" required><br><br>
+            <input type="email" name="conferma_email" id="conferma_email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" required><br><br>
             <label for="password">Password</label>
             <input type="password" name="password" id="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required><br><br>
             <label for="conferma_password">Conferma Password</label>
