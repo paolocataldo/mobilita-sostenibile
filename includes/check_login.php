@@ -1,5 +1,8 @@
 <?php
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1575d80c80653a7b803a0cbc105f233c068255e3
 include "../config.php";
 //fare le funzioni principali: sessione, logout, registrazione
 if (isset($_POST['username']) && isset($_POST['password'])) {
@@ -19,8 +22,13 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     $result = mysqli_fetch_assoc($query);
 
     if($result){
+<<<<<<< HEAD
         echo "Login effettuato con successo!";
         header("Location: ../pages/pagina_privata.php");
+=======
+        header("Location: ../pages/pagina_privata.php");
+        exit(); // Ferma lo script dopo il redirect
+>>>>>>> 1575d80c80653a7b803a0cbc105f233c068255e3
     } else{
         echo "Credenziali errate!";
         echo '<br><a href="../pages/login.php">Riprova login</a>';
