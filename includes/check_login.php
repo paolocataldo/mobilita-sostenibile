@@ -16,10 +16,22 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     } 
 
     $result = mysqli_fetch_assoc($query);
+    /*var_dump($result);
+exit();*/
 
     if($result){
-        header("Location: ../pages/pagina_privata.php");
-        exit(); // Ferma lo script dopo il redirect
+        $_SESSION['username'] = $result['username'];
+
+        // CONTROLLO RUOLO
+        if($result['ruolo'] == 'd'){
+            header("Location: ../pages/pagina_privata.php"); // professore
+            exit();
+        } else if($result['ruolo'] == 's'){
+            header("Location: ../pages/pag_priv2.php"); // studente
+            exit();
+        } else {
+            echo "Ruolo non valido!";
+        }
     } else{
         echo "Credenziali errate!";
         echo '<br><a href="../pages/login.php">Riprova login</a>';
