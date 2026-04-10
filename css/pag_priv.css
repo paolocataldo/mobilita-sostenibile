@@ -1,0 +1,10 @@
+.login_f {
+    background-image: url("../images/sfondo_priv2.jpg");
+    background-size: cover;      
+    background-position: center;
+    min-height: 100vh;              
+    box-sizing: border-box;
+    font-size: 25px;
+    font-family: Arial, Helvetica, sans-serif;
+    padding-top: 0; /* <- testo in alto */
+}

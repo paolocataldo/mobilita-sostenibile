@@ -1,4 +1,5 @@
 <?php
+session_start();
 include "../config.php";
 //fare le funzioni principali: sessione, logout, registrazione
 if (isset($_POST['username']) && isset($_POST['password'])) {
@@ -16,12 +17,12 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     } 
 
     $result = mysqli_fetch_assoc($query);
-    /*var_dump($result);
+    /*var_dump($_SESSION);
 exit();*/
 
     if($result){
         $_SESSION['username'] = $result['username'];
-
+        $_SESSION['LOGGED'] = true;
         // CONTROLLO RUOLO
         if($result['ruolo'] == 'd'){
             header("Location: ../pages/pagina_privata.php"); // professore
