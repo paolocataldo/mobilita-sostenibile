@@ -1,3 +1,19 @@
+<?php
+include "../config.php";
+$sql = "SELECT 
+            classi.id,
+            sezioni.nome AS sezione,
+            indirizzi.nome AS indirizzo
+        FROM classi
+        JOIN sezioni ON classi.id_sezione = sezioni.id
+        JOIN indirizzi ON classi.id_indirizzo = indirizzi.id";
+
+$query = mysqli_query($conn, $sql);
+
+$sql_scuole = "SELECT id, nome FROM scuole";
+$query_scuole = mysqli_query($conn, $sql_scuole);
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -21,6 +37,20 @@
             <input type="password" name="password" id="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required><br><br>
             <label for="conferma_password">Conferma Password</label>
             <input type="password" name="conferma_password" id="conferma_password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"><br><br>
+            <label for="scuola">Scuola</label>
+            <select name="scuola" id="scuola" required onchange="caricaClassi()">
+                <option value="">Seleziona scuola</option>
+
+                <?php while($row = mysqli_fetch_assoc($query_scuole)): ?>
+                    <option value="<?= $row['id']; ?>">
+                        <?= $row['nome']; ?>
+                    </option>
+                <?php endwhile; ?>
+            </select> <br><br>
+            <label for="classe">Classe</label>
+            <select name="classe" id="classe" required>
+                <option value="">Seleziona prima una scuola</option>
+            </select> <br><br>
             <input type="submit" value="Registrati">
             <!-- aggiungere anche l'opzione classe! -->
         </form>

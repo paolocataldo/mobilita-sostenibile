@@ -17,11 +17,13 @@
 
 .registrazione_form input[type="text"],
 .registrazione_form input[type="email"],
-.registrazione_form input[type="password"]{
+.registrazione_form input[type="password"],
+.registrazione_form select {
     font-size: 18px;
     padding: 12px;
     border-radius: 6px;
     border: 1px solid #ccc;
+    width: 300px; /* 👈 aggiungi questo */
 }
 
 .registrazione_form input[type="submit"]{

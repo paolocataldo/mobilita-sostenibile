@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Apr 08, 2026 alle 23:01
+-- Creato il: Apr 12, 2026 alle 20:37
 -- Versione del server: 10.4.32-MariaDB
 -- Versione PHP: 8.0.30
 
@@ -34,6 +34,14 @@ CREATE TABLE `classi` (
   `id_scuola` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dump dei dati per la tabella `classi`
+--
+
+INSERT INTO `classi` (`id`, `id_sezione`, `id_indirizzo`, `id_scuola`) VALUES
+(4, 1, 3, 2),
+(5, 2, 3, 2);
+
 -- --------------------------------------------------------
 
 --
@@ -42,8 +50,17 @@ CREATE TABLE `classi` (
 
 CREATE TABLE `indirizzi` (
   `id` int(11) NOT NULL,
-  `nome` int(11) NOT NULL
+  `nome` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dump dei dati per la tabella `indirizzi`
+--
+
+INSERT INTO `indirizzi` (`id`, `nome`) VALUES
+(1, 'Informatica'),
+(2, 'Meccanica'),
+(3, 'Scientifico');
 
 -- --------------------------------------------------------
 
@@ -70,6 +87,14 @@ CREATE TABLE `scuole` (
   `indirizzo` varchar(150) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dump dei dati per la tabella `scuole`
+--
+
+INSERT INTO `scuole` (`id`, `nome`, `citta`, `indirizzo`) VALUES
+(1, 'ITIS Avogadro', 'Torino', 'Via Rossini 18'),
+(2, 'Liceo Scientifico Galileo', 'Torino', 'Via Verdi 10');
+
 -- --------------------------------------------------------
 
 --
@@ -89,19 +114,17 @@ CREATE TABLE `scuole_indirizzi` (
 
 CREATE TABLE `sezioni` (
   `id` int(11) NOT NULL,
-  `nome` int(11) NOT NULL
+  `nome` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- --------------------------------------------------------
-
 --
--- Struttura della tabella `studenti`
+-- Dump dei dati per la tabella `sezioni`
 --
 
-CREATE TABLE `studenti` (
-  `id` int(11) NOT NULL,
-  `id_classe` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+INSERT INTO `sezioni` (`id`, `nome`) VALUES
+(1, 'A'),
+(2, 'B'),
+(3, 'C');
 
 -- --------------------------------------------------------
 
@@ -126,7 +149,8 @@ CREATE TABLE `utenti` (
   `email` varchar(255) NOT NULL,
   `password` varchar(32) NOT NULL,
   `ruolo` enum('s','d','a') DEFAULT NULL,
-  `account_activation_hash` varchar(64) NOT NULL,
+  `id_classe` int(11) DEFAULT NULL,
+  `account_activation_hash` varchar(255) DEFAULT NULL,
   `reset_token_hash` varchar(64) DEFAULT NULL,
   `reset_token_expires_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -135,10 +159,10 @@ CREATE TABLE `utenti` (
 -- Dump dei dati per la tabella `utenti`
 --
 
-INSERT INTO `utenti` (`id`, `username`, `email`, `password`, `ruolo`, `account_activation_hash`, `reset_token_hash`, `reset_token_expires_at`) VALUES
-(1, 'paolo', 'paolo.cataldo0722@gmail.com', 'd4a9c286b2e4d57fccef6090191652a1', 'a', '', NULL, NULL),
-(5, 'PROVA', 'ucataldo2007@gmail.com', 'e7226222d28a9b09aef035be74890a7d', NULL, '8cd9105edd3625725030a9fad8f7c80b6c551bce90fc26e809d2e7dd5a37b296', '18338c5585c8101079e345e1477869953b5e0fb53ca0ce3bfa81767d910c685c', '2026-04-08 22:21:26'),
-(8, 'gabriele', 'gabrielevalentino294@studenti.itisavogadro.it', '489cb7fc2813cc180bba70f297cafc15', NULL, 'd65f48f7870e6e17ffbded0ad20342dcc69082040aacece5dd6e81440f091081', NULL, NULL);
+INSERT INTO `utenti` (`id`, `username`, `email`, `password`, `ruolo`, `id_classe`, `account_activation_hash`, `reset_token_hash`, `reset_token_expires_at`) VALUES
+(1, 'paolo', 'paolo.cataldo0722@gmail.com', 'e7226222d28a9b09aef035be74890a7d', 'a', 0, '', NULL, NULL),
+(12, 'paolo5', 'gabrielevalentino294@gmail.com', 'e7226222d28a9b09aef035be74890a7d', NULL, 0, '6a9e40de9450015cfd3362bd44d63faeefc735e28c61dc3b0f8bb967e855d9a2', NULL, NULL),
+(20, 'prova', 's9503358v@studenti.itisavogadro.it', 'e94f14b2f1a94a57e9d55385bbeb9691', 's', 0, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -200,13 +224,6 @@ ALTER TABLE `sezioni`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indici per le tabelle `studenti`
---
-ALTER TABLE `studenti`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_classe` (`id_classe`);
-
---
 -- Indici per le tabelle `studenti_viaggi`
 --
 ALTER TABLE `studenti_viaggi`
@@ -238,13 +255,13 @@ ALTER TABLE `viaggi`
 -- AUTO_INCREMENT per la tabella `classi`
 --
 ALTER TABLE `classi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT per la tabella `indirizzi`
 --
 ALTER TABLE `indirizzi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT per la tabella `mezzi`
@@ -256,25 +273,19 @@ ALTER TABLE `mezzi`
 -- AUTO_INCREMENT per la tabella `scuole`
 --
 ALTER TABLE `scuole`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT per la tabella `sezioni`
 --
 ALTER TABLE `sezioni`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT per la tabella `studenti`
---
-ALTER TABLE `studenti`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT per la tabella `utenti`
 --
 ALTER TABLE `utenti`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT per la tabella `viaggi`
@@ -300,13 +311,6 @@ ALTER TABLE `classi`
 ALTER TABLE `scuole_indirizzi`
   ADD CONSTRAINT `scuole_indirizzi_ibfk_1` FOREIGN KEY (`id_indirizzo`) REFERENCES `indirizzi` (`id`),
   ADD CONSTRAINT `scuole_indirizzi_ibfk_2` FOREIGN KEY (`id_scuola`) REFERENCES `scuole` (`id`);
-
---
--- Limiti per la tabella `studenti`
---
-ALTER TABLE `studenti`
-  ADD CONSTRAINT `studenti_ibfk_1` FOREIGN KEY (`id`) REFERENCES `utenti` (`id`),
-  ADD CONSTRAINT `studenti_ibfk_2` FOREIGN KEY (`id_classe`) REFERENCES `classi` (`id`);
 
 --
 -- Limiti per la tabella `studenti_viaggi`

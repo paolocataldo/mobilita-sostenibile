@@ -14,3 +14,20 @@ function controllaForm(){
     }
     return true;
 }
+
+function caricaClassi() {
+    let scuola_id = document.getElementById("scuola").value;
+
+    let xhr = new XMLHttpRequest();
+    xhr.open("GET", "../includes/get_classi.php?scuola_id=" + scuola_id, true);
+
+    xhr.onload = function () {
+        if (this.status == 200) {
+            document.getElementById("classe").innerHTML = this.responseText;
+        }
+    };
+
+    xhr.send();
+    console.log(scuola_id);
+}
+
