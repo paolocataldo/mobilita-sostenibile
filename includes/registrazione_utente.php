@@ -1,73 +1,92 @@
 <?php
-
 include "../config.php";
 
 $email = $_POST['email'];
 $username = $_POST['username'];
 $password = md5($_POST['password']);
 
-
 $activation_token = bin2hex(random_bytes(16));
 $activation_token_hash = hash("sha256", $activation_token);
 
+$messaggio = "";
+$link = "";
 
-if (strpos($email, '@') === false) { //strpos cerca un carattere dentro la stringa e restituisce la posizione
-    echo "Email non valida";
-    exit();
-}
-
-$parti = explode('@', $email);  //DA MIGLIORARE, POICHE QUALSIASI STUDENTE POTREBBE METTERE L'EMAIL DI UN PROFESSORE.
-$dominio = strtolower(trim($parti[1]));
-
-if ($dominio == "studenti.itisavogadro.it") {
-    $ruolo = 's';
-} elseif ($dominio == "itisavogadro.it") {
-    $ruolo = 'd';
+if (strpos($email, '@') === false) {
+    $messaggio = "Email non valida";
 } else {
-    echo "Dominio non valido";
-    echo $dominio;
-    exit();
+    $parti = explode('@', $email);
+    $dominio = strtolower(trim($parti[1]));
+
+    if ($dominio == "studenti.itisavogadro.it") {
+        $ruolo = 's';
+    } elseif ($dominio == "itisavogadro.it") {
+        $ruolo = 'd';
+    } else {
+        $messaggio = "Dominio non valido";
+    }
 }
 
-$controllo = "SELECT SUM(email = '$email') AS email_esiste, 
-            SUM(username = '$username') AS username_esiste 
-            FROM UTENTI";
+if ($messaggio == "") {
 
-$risultato = mysqli_query($conn, $controllo);
-$row = mysqli_fetch_assoc($risultato);
+    $controllo = "SELECT SUM(email = '$email') AS email_esiste, 
+                  SUM(username = '$username') AS username_esiste 
+                  FROM utenti";
 
-if($row['email_esiste'] || $row['username_esiste']){
-    echo "Email o username già in uso.<br>";
-    echo '<br><a href="registrazione.php">Torna al form di registrazione</a>';
-} else{
-    $inserimento = "INSERT INTO utenti (id, username, email, password, ruolo, account_activation_hash)
-                    VALUES(NULL, '$username', '$email', '$password', '$ruolo', '$activation_token_hash')";
-    $result = mysqli_query($conn, $inserimento);
-    if($result){
-        echo "Registrazione completata. Perfavore controlla l'email per attivare l'account.";
-        //manda email attivazione
-        $mail = require __DIR__ . "/mailer.php";
-        $mail->setFrom($_ENV['SMTP_USER'], "Paolo Cataldo");
-        $mail->addAddress($_POST["email"]);
-        $mail->Subject = "Attivazione Account";
-        $mail->Body = <<<END
+    $risultato = mysqli_query($conn, $controllo);
+    $row = mysqli_fetch_assoc($risultato);
 
-        Clicca <a href="http://localhost/Cataldo/mobilita_sostenibile/includes/attiva_account.php?token=$activation_token">qui</a> 
-        per attivare il tuo account.
+    if ($row['email_esiste'] || $row['username_esiste']) {
+        $messaggio = "Email o username già in uso.";
+        $link = "../pages/registrazione.php";
+    } else {
 
-        END;
+        $inserimento = "INSERT INTO utenti (id, username, email, password, ruolo, account_activation_hash)
+                        VALUES(NULL, '$username', '$email', '$password', '$ruolo', '$activation_token_hash')";
 
-        try{
-            $mail->send();
-        } catch(Exception $e){
-            echo "Il messaggio non è stato inviato. Errore mailer: {$mail->ErrorInfo}";
-            exit;
+        $result = mysqli_query($conn, $inserimento);
+
+        if ($result) {
+            $messaggio = "Registrazione completata. Controlla l'email per attivare l'account.";
+
+            $mail = require __DIR__ . "/mailer.php";
+            $mail->setFrom($_ENV['SMTP_USER'], "Paolo Cataldo");
+            $mail->addAddress($_POST["email"]);
+            $mail->Subject = "Attivazione Account";
+
+            $mail->Body = <<<END
+Clicca <a href="http://localhost/Cataldo/mobilita_sostenibile/includes/attiva_account.php?token=$activation_token">qui</a> 
+per attivare il tuo account.
+END;
+
+            try {
+                $mail->send();
+            } catch (Exception $e) {
+                $messaggio = "Errore invio email.";
+            }
+        } else {
+            $messaggio = "Errore nell'inserimento.";
         }
     }
-    else{
-        echo "Errore nell'inserimento: " . mysqli_error($conn);
-    } 
 }
+?>
 
+<!DOCTYPE html>
+<html lang="it">
 
+<head>
+    <meta charset="UTF-8">
+    <title>Registrazione</title>
+    <link rel="stylesheet" href="../css/registrazione_utente.css">
+</head>
 
+<body class="register_page">
+
+    <p><?php echo $messaggio; ?></p>
+
+    <?php if ($link != ""): ?>
+        <a href="<?php echo $link; ?>" class="btn">Torna alla registrazione</a>
+    <?php endif; ?>
+
+</body>
+
+</html>

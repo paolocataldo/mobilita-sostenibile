@@ -23,6 +23,19 @@ $query = mysqli_query($conn, $sql);
 if (!$query) {
     die("Errore UPDATE: " . mysqli_error($conn));
 }
-
-echo "Account attivato.";
 ?>
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Attivazione account</title>
+    <link rel="stylesheet" href="../css/attiva_account.css">
+</head>
+<body class="activation_page">
+
+<p>Account attivato.</p>
+<a href="../pages/login.php" id="login">Torna al login</a>
+
+</body>
+</html>

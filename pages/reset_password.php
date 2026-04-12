@@ -23,10 +23,12 @@ if (strtotime($result["reset_token_expires_at"]) <= time()){
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Reset Password</title>
-        <script src="../js/nuova_password.js"></script>
-    </head>
-    <body>
+    <title>Reset Password</title>
+    <link rel="stylesheet" href="../css/reset_password.css">
+    <script src="../js/nuova_password.js"></script>
+</head>
+
+<body class="reset_form">
         <h1>Reset Password</h1>
 
         <form method="POST" action="../includes/process_reset_password.php" onsubmit="return nuovaPassword()">
@@ -35,7 +37,7 @@ if (strtotime($result["reset_token_expires_at"]) <= time()){
             <input type="password" id="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
 
             <label for="conferma_password">Conferma password</label>
-            <input type="password" id="conferma_password" name="conferma_password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
+            <input type="password" id="conferma_password" name="conferma_password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required> <br>
             
             <button>Invia</button>
         </form>

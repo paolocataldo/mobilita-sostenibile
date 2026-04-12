@@ -6,26 +6,43 @@ $token_hash = hash("sha256", $token);
 
 $sql = "SELECT * FROM utenti
         WHERE reset_token_hash = '$token_hash'";
-
 $query = mysqli_query($conn, $sql);
-
 $result = mysqli_fetch_assoc($query);
 
+$messaggio = "";
+
 if(!$result){
-    die("Token non trovato");
+    $messaggio = "Token non trovato";
+} elseif (strtotime($result["reset_token_expires_at"]) <= time()){
+    $messaggio = "Token scaduto";
+} else {
+
+    $password_hash = md5($_POST["password"]);
+
+    $sql = "UPDATE utenti
+            SET password = '$password_hash',
+            reset_token_hash = NULL,
+            reset_token_expires_at = NULL
+            WHERE reset_token_hash = '$token_hash'";
+
+    mysqli_query($conn, $sql);
+
+    $messaggio = "Password aggiornata. Ora puoi accedere.";
 }
-
-if (strtotime($result["reset_token_expires_at"]) <= time()){
-    die("Token scaduto");
-}
-
-$password_hash = md5($_POST["password"]);
-
-$sql = "UPDATE utenti
-        SET password = '$password_hash',
-        reset_token_hash = NULL,
-        reset_token_expires_at = NULL
-        WHERE reset_token_hash = '$token_hash'";
-$query = mysqli_query($conn, $sql);
-echo "Password aggiornata. Ora puoi loggarti."
 ?>
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Password aggiornata</title>
+    <link rel="stylesheet" href="../css/process_reset_password.css">
+</head>
+<body class="success_page">
+
+<p><?php echo $messaggio; ?></p>
+
+<a href="../pages/login.php" class="btn">Vai al login</a>
+
+</body>
+</html>

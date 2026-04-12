@@ -1,10 +1,98 @@
-.login_form {
-    background-image: url("../images/sfondo_priv2.jpg");
-    background-size: cover;      
+/* PAGINA PRIVATA */
+.private_page {
+    background-image: url("../images/sfondo_pag_priv.jpg");
+    background-size: cover;
     background-position: center;
-    min-height: 100vh;              
-    box-sizing: border-box;
-    font-size: 25px;
+    min-height: 100vh;
     font-family: Arial, Helvetica, sans-serif;
-    padding-top: 0; /* <- testo in alto */
+    margin: 0;
+    font-size: 20px; 
+}
+
+/* TOP BAR */
+.top_bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 50px;
+}
+
+/* TITOLO */
+.top_bar h1 {
+    font-size: 32px; 
+    color: #000;
+}
+
+/* LOGOUT */
+.logout_btn {
+    text-decoration: none;
+    color: #000;
+    font-weight: bold;
+    border: 1px solid #000;
+    padding: 12px 20px;
+    border-radius: 8px;
+    background-color: #fff;
+    transition: 0.3s;
+    font-size: 18px; 
+}
+
+.logout_btn:hover {
+    background-color: #c3def1;
+    transform: scale(1.05);
+}
+
+/* CONTENITORE CENTRALE */
+.container {
+    display: flex;
+    justify-content: center;
+    padding-top: 30px; 
+}
+
+/* CARD */
+.main_card {
+    text-align: center;
+}
+
+/* FORM */
+.main_card form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* LABEL più leggibili */
+.main_card label {
+    font-weight: bold;
+    margin-top: 18px;
+    font-size: 20px;
+}
+
+/* INPUT + SELECT */
+.main_card input,
+.main_card select {
+    width: 300px;       
+    padding: 14px;       
+    font-size: 18px;     
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    margin-top: 8px;
+}
+
+/* BOTTONI invariati ma leggermente più grandi */
+.main_card button {
+    margin-top: 30px;
+    width: 220px;
+    padding: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 8px;
+    border: 1px solid #000;
+    background-color: #fff;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.main_card button:hover {
+    background-color: #c3def1;
+    transform: scale(1.05);
 }

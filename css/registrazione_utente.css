@@ -1,5 +1,5 @@
-/* Sfondo */
-.forgot_page {
+/* Pagina registrazione esito */
+.register_page {
     background-image: url("../images/co2.jpg");
     background-size: cover;
     background-position: center;
@@ -11,39 +11,31 @@
     text-align: center;
 }
 
-/* Label */
-.forgot_page label {
+/* Testo */
+.register_page p {
     color: #000000;
     font-weight: bold;
-    display: block;
-    margin-bottom: 10px;
+    margin-bottom: 30px;
 }
 
-/* Input */
-.forgot_page input[type="email"] {
+/* Link stile bottone */
+.btn {
+    display: inline-block;
+    width: 220px;
+    padding: 10px;
     font-size: 18px;
-    padding: 12px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    margin-bottom: 20px;
-}
-
-/* Bottone stile LOGIN */
-.forgot_page button {
-    width: 120px;
-    padding: 6px;
-    font-size: 15px;
     font-weight: bold;
     border-radius: 8px;
-    cursor: pointer;
-    border: 1px solid #000; 
-    background-color: #ffffff;
+    background-color: #e0e0e0;
+    text-decoration: none;
+    color: #000;
+    transition: all 0.3s;
 }
 
-/* Hover */
-.forgot_page button:hover {
+.btn:hover {
     background-color: #c3def1;
     transform: scale(1.05);
+    cursor: pointer;
 }
 
 /* Reset */
