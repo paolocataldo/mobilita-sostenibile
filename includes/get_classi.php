@@ -24,4 +24,4 @@ if (isset($_GET['scuola_id'])) {
               </option>";
     }
 }
-?>
+?>  
