@@ -44,3 +44,26 @@ body{
     text-align: center;
     margin: 0;
 }
+
+/* Contenitore link */
+.links {
+    margin-top: 10px;  
+    font-size: 20px;
+    display: flex;      
+    flex-direction: column;
+    gap: 10px;          
+    align-items: center; 
+}
+
+/* Stile singoli link */
+a {
+    color: #000000;       /* bianco per contrasto sullo sfondo azzurro */
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+ a:hover {
+    color: #003366;       /* blu scuro al passaggio del mouse */
+    text-decoration: underline;
+    cursor: pointer;
+}

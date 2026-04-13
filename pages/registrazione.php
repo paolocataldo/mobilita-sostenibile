@@ -51,8 +51,9 @@ $query_scuole = mysqli_query($conn, $sql_scuole);
             <select name="classe" id="classe" required>
                 <option value="">Seleziona prima una scuola</option>
             </select> <br><br>
-            <input type="submit" value="Registrati">
+            <input type="submit" value="Registrati"><br><br>
             <!-- aggiungere anche l'opzione classe! -->
+             <a href="login.php" class ="links">Torna al login</a>
         </form>
     </div>
 </body>

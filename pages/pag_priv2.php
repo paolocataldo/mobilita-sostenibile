@@ -37,12 +37,12 @@ $username = $_SESSION['username'];
                 <label for="data">Data</label>
                 <input type="date" name="data" id="data" required>
 
-                <label for="scuola">Scuola</label>
+               <!-- <label for="scuola">Scuola</label>
                 <input type="text" name="scuola" id="scuola" placeholder="Es: ITIS Avogadro" required>
 
                 <label for="classe">Classe</label>
                 <input type="text" name="classe" id="classe" placeholder="Es: 4A INF" required>
-
+            --->
                 <label for="mezzo">Mezzo di trasporto</label>
                 <select name="mezzo" id="mezzo" required>
                     <option value="auto">Auto</option>
