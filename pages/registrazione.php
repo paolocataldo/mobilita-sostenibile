@@ -38,7 +38,7 @@ $query_scuole = mysqli_query($conn, $sql_scuole);
             <label for="conferma_password">Conferma Password</label>
             <input type="password" name="conferma_password" id="conferma_password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"><br><br>
             <label for="scuola">Scuola</label>
-            <select name="scuola" id="scuola" required onchange="caricaClassi()">
+            <select name="scuola" id="scuola" onchange="caricaClassi()">
                 <option value="">Seleziona scuola</option>
 
                 <?php while($row = mysqli_fetch_assoc($query_scuole)): ?>
@@ -48,7 +48,7 @@ $query_scuole = mysqli_query($conn, $sql_scuole);
                 <?php endwhile; ?>
             </select> <br><br>
             <label for="classe">Classe</label>
-            <select name="classe" id="classe" required>
+            <select name="classe" id="classe">
                 <option value="">Seleziona prima una scuola</option>
             </select> <br><br>
             <input type="submit" value="Registrati"><br><br>
