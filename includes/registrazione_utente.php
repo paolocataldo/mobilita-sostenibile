@@ -3,7 +3,8 @@ include "../config.php";
 
 $email = $_POST['email'];
 $username = $_POST['username'];
-$password = md5($_POST['password']);
+$password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+$id_classe = isset($_POST['classe']) ? intval($_POST['classe']) : null;
 
 $activation_token = bin2hex(random_bytes(16));
 $activation_token_hash = hash("sha256", $activation_token);
@@ -11,82 +12,73 @@ $activation_token_hash = hash("sha256", $activation_token);
 $messaggio = "";
 $link = "";
 
-if (strpos($email, '@') === false) {
+/* VALIDAZIONE EMAIL */
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     $messaggio = "Email non valida";
 } else {
-    $parti = explode('@', $email);
-    $dominio = strtolower(trim($parti[1]));
+
+    $dominio = strtolower(substr(strrchr($email, "@"), 1));
 
     if ($dominio == "studenti.itisavogadro.it") {
-        $ruolo = 's';
+        $ruolo = 's'; // studente
     } elseif ($dominio == "itisavogadro.it") {
-        $ruolo = 'd';
+        $ruolo = 'd'; // docente
     } else {
         $messaggio = "Dominio non valido";
     }
 }
 
+/* CONTROLLO + INSERIMENTO */
 if ($messaggio == "") {
 
-    $controllo = "SELECT SUM(email = '$email') AS email_esiste, 
-                  SUM(username = '$username') AS username_esiste 
-                  FROM utenti";
-
+    $controllo = "SELECT id FROM utenti WHERE email='$email' OR username='$username'";
     $risultato = mysqli_query($conn, $controllo);
-    $row = mysqli_fetch_assoc($risultato);
 
-    if ($row['email_esiste'] || $row['username_esiste']) {
+    if (mysqli_num_rows($risultato) > 0) {
         $messaggio = "Email o username già in uso.";
         $link = "../pages/registrazione.php";
     } else {
 
-        $inserimento = "INSERT INTO utenti (id, username, email, password, ruolo, account_activation_hash)
-                        VALUES(NULL, '$username', '$email', '$password', '$ruolo', '$activation_token_hash')";
+        /* 👉 SE DOCENTE IGNORA CLASSE */
+        if ($ruolo == 'd') {
+            $id_classe_db = "NULL";
+            $extra_msg = "Account docente: classe non assegnata.";
+        } else {
+            $id_classe_db = $id_classe;
+            $extra_msg = "Account studente: classe assegnata.";
+        }
+
+        $inserimento = "INSERT INTO utenti 
+            (username, email, password, ruolo, id_classe, account_activation_hash)
+            VALUES 
+            ('$username', '$email', '$password', '$ruolo', $id_classe_db, '$activation_token_hash')";
 
         $result = mysqli_query($conn, $inserimento);
 
         if ($result) {
-            $messaggio = "Registrazione completata. Controlla l'email per attivare l'account.";
+            $messaggio = "Registrazione completata. $extra_msg Controlla l'email per attivare l'account.";
 
             $mail = require __DIR__ . "/mailer.php";
-            $mail->setFrom($_ENV['SMTP_USER'], "Paolo Cataldo");
-            $mail->addAddress($_POST["email"]);
+            $mail->setFrom($_ENV['SMTP_USER'], "Sistema Scuola");
+            $mail->addAddress($email);
             $mail->Subject = "Attivazione Account";
 
-            $mail->Body = <<<END
-Clicca <a href="http://localhost/Cataldo/mobilita_sostenibile/includes/attiva_account.php?token=$activation_token">qui</a> 
-per attivare il tuo account.
-END;
+            $mail->Body = "
+                Clicca qui per attivare il tuo account:<br>
+                <a href='http://localhost/Cataldo/mobilita_sostenibile/includes/attiva_account.php?token=$activation_token'>
+                Attiva account
+                </a>
+            ";
 
             try {
                 $mail->send();
             } catch (Exception $e) {
                 $messaggio = "Errore invio email.";
             }
+
         } else {
-            $messaggio = "Errore nell'inserimento.";
+            $messaggio = "Errore inserimento nel database.";
         }
     }
 }
 ?>
-
-<!DOCTYPE html>
-<html lang="it">
-
-<head>
-    <meta charset="UTF-8">
-    <title>Registrazione</title>
-    <link rel="stylesheet" href="../css/registrazione_utente.css">
-</head>
-
-<body class="register_page">
-
-    <p><?php echo $messaggio; ?></p>
-
-    <?php if ($link != ""): ?>
-        <a href="<?php echo $link; ?>" class="btn">Torna alla registrazione</a>
-    <?php endif; ?>
-
-</body>
-
-</html>

@@ -53,34 +53,42 @@
     text-align: center;
 }
 
-/* FORM */
+/* FORM A 2 COLONNE */
 .main_card form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px 30px;
+    max-width: 700px;
+}
+
+/* BLOCCO CAMPO (label + input) */
+.field {
     display: flex;
     flex-direction: column;
-    align-items: center;
 }
 
-/* LABEL più leggibili */
-.main_card label {
+/* LABEL */
+.field label {
     font-weight: bold;
-    margin-top: 18px;
     font-size: 20px;
+    margin-bottom: 5px;
 }
 
-/* INPUT + SELECT */
-.main_card input,
-.main_card select {
-    width: 300px;       
-    padding: 14px;       
-    font-size: 18px;     
+/* INPUT E SELECT */
+.field input,
+.field select {
+    width: 100%;
+    padding: 14px;
+    font-size: 18px;
     border-radius: 6px;
     border: 1px solid #ccc;
-    margin-top: 8px;
 }
 
-/* BOTTONI invariati ma leggermente più grandi */
+/* BOTTONE CENTRATO */
 .main_card button {
-    margin-top: 30px;
+    grid-column: span 2;
+    justify-self: center;
+    margin-top: 20px;
     width: 220px;
     padding: 12px;
     font-size: 18px;
@@ -96,3 +104,4 @@
     background-color: #c3def1;
     transform: scale(1.05);
 }
+

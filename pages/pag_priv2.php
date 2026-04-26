@@ -2,14 +2,42 @@
 include "../includes/check_sessione.php";
 include "../config.php";
 
-
-
 if (!isset($_SESSION['username'])) {
     header("Location: login.php");
     exit();
 }
-$username = $_SESSION['username'];
+
+/* SCUOLE */
+$scuole = mysqli_query($conn, "SELECT id, nome FROM scuole");
+
+/* MEZZI */
+$mezzi = mysqli_query($conn, "SELECT id, nome FROM mezzi");
+
+/* CLASSI */
+$classi = mysqli_query($conn, "
+    SELECT 
+        classi.id,
+        classi.anno,
+        sezioni.nome AS sezione,
+        indirizzi.nome AS indirizzo
+    FROM classi
+    JOIN sezioni ON classi.id_sezione = sezioni.id
+    JOIN indirizzi ON classi.id_indirizzo = indirizzi.id
+    ORDER BY classi.anno, sezioni.nome
+");
 ?>
+
+<?php if (isset($_GET['success'])): ?>
+    <p style="color: green; font-weight: bold;">
+        Spostamento salvato con successo!
+    </p>
+<?php endif; ?>
+
+<?php if (isset($_GET['error'])): ?>
+    <p style="color: red; font-weight: bold;">
+        Errore nel salvataggio dello spostamento.
+    </p>
+<?php endif; ?>
 
 <!DOCTYPE html>
 <html>
@@ -27,44 +55,68 @@ $username = $_SESSION['username'];
 
     <div class="container">
 
-        <!-- BOX PRINCIPALE: INSERIMENTO SPOSTAMENTO -->
         <div class="main_card">
 
             <h2>Inserisci spostamento giornaliero</h2>
 
             <form action="../includes/insert_spostamento.php" method="POST">
 
-                <label for="data">Data</label>
-                <input type="date" name="data" id="data" required>
+                <!-- DATA -->
+                <div class="field">
+                    <label for="data">Data</label>
+                    <input type="date" name="data" id="data" required>
+                </div>
 
-                <label for="scuola">Scuola</label>
-                <input type="text" name="scuola" id="scuola" placeholder="Es: ITIS Avogadro" required>
+                <!-- SCUOLA -->
+                <div class="field">
+                    <label for="scuola">Scuola</label>
+                    <select name="scuola" id="scuola" required>
+                        <option value="">Seleziona scuola</option>
+                        <?php while ($row = mysqli_fetch_assoc($scuole)): ?>
+                            <option value="<?= $row['id'] ?>">
+                                <?= $row['nome'] ?>
+                            </option>
+                        <?php endwhile; ?>
+                    </select>
+                </div>
 
-                <label for="classe">Classe</label>
-                <input type="text" name="classe" id="classe" placeholder="Es: 4A INF" required>
+                <!-- CLASSE -->
+                <div class="field">
+                    <label for="classe">Classe</label>
+                    <select name="classe" id="classe" required>
+                        <option value="">Seleziona classe</option>
+                        <?php while ($row = mysqli_fetch_assoc($classi)): ?>
+                            <option value="<?= $row['id'] ?>">
+                                <?= $row['anno'] . $row['sezione'] . ' ' . $row['indirizzo'] ?>
+                            </option>
+                        <?php endwhile; ?>
+                    </select>
+                </div>
 
-                <label for="mezzo">Mezzo di trasporto</label>
-                <select name="mezzo" id="mezzo" required>
-                    <option value="auto">Auto</option>
-                    <option value="bici">Bici</option>
-                    <option value="mezzi">Trasporto pubblico</option>
-                    <option value="a piedi">A piedi</option>
-                </select>
+                <!-- MEZZO -->
+                <div class="field">
+                    <label for="mezzo">Mezzo di trasporto</label>
+                    <select name="mezzo" id="mezzo" required>
+                        <option value="">Seleziona mezzo</option>
+                        <?php while ($row = mysqli_fetch_assoc($mezzi)): ?>
+                            <option value="<?= $row['id'] ?>">
+                                <?= $row['nome'] ?>
+                            </option>
+                        <?php endwhile; ?>
+                    </select>
+                </div>
 
-                <label for="tipo_veicolo">Tipo di veicolo</label>
-                <select name="tipo_veicolo" id="tipo_veicolo" required>
-                    <option value="benzina">Benzina</option>
-                    <option value="diesel">Diesel</option>
-                    <option value="ibrido">Ibrido</option>
-                    <option value="elettrico">Elettrico</option>
-                    <option value="nessuno">Nessuno</option>
-                </select>
+                <!-- KM -->
+                <div class="field">
+                    <label for="km">Distanza (km)</label>
+                    <input type="number" name="km" id="km" min="0" step="0.1" required>
+                </div>
 
-                <label for="km">Distanza (km)</label>
-                <input type="number" name="km" id="km" min="0" step="0.1" required>
-
-                <label for="passeggeri">Numero passeggeri</label>
-                <input type="number" name="passeggeri" id="passeggeri" min="1" step="1" required>
+                <!-- PASSEGGERI -->
+                <div class="field">
+                    <label for="passeggeri">Numero passeggeri</label>
+                    <input type="number" name="passeggeri" id="passeggeri" min="1" step="1" required>
+                </div>
 
                 <button type="submit">Salva spostamento</button>
 
