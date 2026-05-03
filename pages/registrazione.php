@@ -48,7 +48,6 @@ $query_scuole = mysqli_query($conn, $sql_scuole);
                 <?php endwhile; ?>
             </select> <br><br>
             <label for="classe">Classe</label>
-            <select name="classe" id="classe" >
             <select name="classe" id="classe">
                 <option value="">Seleziona prima una scuola</option>
             </select> <br><br>
