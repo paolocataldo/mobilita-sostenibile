@@ -48,15 +48,11 @@ $query_scuole = mysqli_query($conn, $sql_scuole);
                 <?php endwhile; ?>
             </select> <br><br>
             <label for="classe">Classe</label>
-<<<<<<< HEAD
             <select name="classe" id="classe" >
-=======
             <select name="classe" id="classe">
->>>>>>> f376ecc61d4049a945bcab48dacd2bdd319ee5b5
                 <option value="">Seleziona prima una scuola</option>
             </select> <br><br>
             <input type="submit" value="Registrati"><br><br>
-            <!-- aggiungere anche l'opzione classe! -->
              <a href="login.php" class ="links">Torna al login</a>
         </form>
     </div>
