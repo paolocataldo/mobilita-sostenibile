@@ -67,6 +67,7 @@ $classi = mysqli_query($conn, "
                     <input type="date" name="data" id="data" required>
                 </div>
 
+<<<<<<< HEAD
                 <!-- SCUOLA -->
                 <div class="field">
                     <label for="scuola">Scuola</label>
@@ -105,6 +106,21 @@ $classi = mysqli_query($conn, "
                         <?php endwhile; ?>
                     </select>
                 </div>
+=======
+               <!-- <label for="scuola">Scuola</label>
+                <input type="text" name="scuola" id="scuola" placeholder="Es: ITIS Avogadro" required>
+
+                <label for="classe">Classe</label>
+                <input type="text" name="classe" id="classe" placeholder="Es: 4A INF" required>
+            --->
+                <label for="mezzo">Mezzo di trasporto</label>
+                <select name="mezzo" id="mezzo" required>
+                    <option value="auto">Auto</option>
+                    <option value="bici">Bici</option>
+                    <option value="mezzi">Trasporto pubblico</option>
+                    <option value="a piedi">A piedi</option>
+                </select>
+>>>>>>> f376ecc61d4049a945bcab48dacd2bdd319ee5b5
 
                 <!-- KM -->
                 <div class="field">
