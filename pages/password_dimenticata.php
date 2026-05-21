@@ -9,11 +9,17 @@
 
     <h1>Password Dimenticata</h1>
 
+    <p class="subtitle">
+        Inserisci l’indirizzo email associato al tuo account per reimpostare la password.
+    </p>
+
     <form action="../includes/manda_password_reset.php" method="POST">
+        
         <label for="email">Email</label>
         <input type="email" name="email" id="email" required>
-        <br>
+
         <button type="submit">Invia</button>
+
     </form>
 
 </body>

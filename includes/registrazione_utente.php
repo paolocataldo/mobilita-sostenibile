@@ -19,7 +19,7 @@ if (strpos($email, '@') === false) {
     $parti = explode('@', $email);
     $dominio = strtolower(trim($parti[1]));
 
-    if ($dominio == "studenti.itisavogadro.it") {
+   if ($dominio == "studenti.itisavogadro.it") {
         $ruolo = 's';
     } elseif ($dominio == "itisavogadro.it") {
         $ruolo = 'd';
@@ -94,11 +94,27 @@ if ($messaggio == "") {
 
 <body class="register_page">
 
-    <p><?php echo $messaggio; ?></p>
+    <h1>Registrazione</h1>
 
-    <?php if ($link != ""): ?>
-        <a href="<?php echo $link; ?>" class="btn">Torna alla registrazione</a>
-    <?php endif; ?>
+    <div class="register_box">
+
+        <p><?php echo $messaggio; ?></p>
+
+        <?php if ($link != ""): ?>
+
+            <a href="<?php echo $link; ?>" class="btn">
+                Torna alla registrazione
+            </a>
+
+        <?php else: ?>
+
+            <a href="../pages/login.php" class="btn">
+                Vai al login
+            </a>
+
+        <?php endif; ?>
+
+    </div>
 
 </body>
 

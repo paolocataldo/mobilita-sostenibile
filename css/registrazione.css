@@ -1,69 +1,170 @@
-.registrazione_form{
+body {
+    margin: 0;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Sfondo */
+.registrazione_form {
     background-image: url("../images/co2.jpg");
     background-size: cover;
     background-position: center;
     min-height: 100vh;
+    padding: 60px 20px;
     box-sizing: border-box;
-    padding-top: 100px;
-    font-size: 25px;
-    font-family: Arial, Helvetica, sans-serif;
 }
 
-.registrazione_form label{
-    color: #000000;
-    font-weight: bold;
+/* Box principale */
+.registrazione_form form {
+    max-width: 640px; /* ancora più stretto */
+    margin: auto;
+    padding: 35px 40px;
+
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 18px;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 24px;
+
+    text-align: left;
+    box-sizing: border-box;
+}
+/* Label */
+.registrazione_form label {
     display: block;
+    margin-bottom: 6px;
+
+    color: #000;
+    font-size: 15px;
+    font-weight: bold;
+
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
 }
 
+/* Gruppi input */
+.registrazione_form .full-width {
+    grid-column: 1 / 3;
+}
+
+/* Input */
 .registrazione_form input[type="text"],
 .registrazione_form input[type="email"],
 .registrazione_form input[type="password"],
 .registrazione_form select {
-    font-size: 18px;
-    padding: 12px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    width: 300px; /* 👈 aggiungi questo */
+    width: 100%;
+    max-width: 260px; /* più stretti */
+
+    padding: 11px 12px;
+    box-sizing: border-box;
+
+    font-size: 15px;
+    color: #222;
+
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+
+    background: rgba(255, 255, 255, 0.92);
+
+    outline: none;
+
+    transition: 0.2s;
+}
+/* Focus */
+.registrazione_form input:focus,
+.registrazione_form select:focus {
+    background: #fff;
+    border-color: #fff;
+
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
 }
 
-.registrazione_form input[type="submit"]{
-    width: 100px;
-    padding: 5px;
+/* Bottone */
+.registrazione_form input[type="submit"] {
+    grid-column: 1 / 3;
+
+    width: 100%;
+    padding: 12px;
+
+    border: none;
+    border-radius: 10px;
+
     font-size: 15px;
     font-weight: bold;
-    border-radius: 8px;
+
     cursor: pointer;
+
+    background: rgba(255, 255, 255, 0.9);
+    color: #1a3a28;
+
+    transition: 0.2s;
 }
 
-.registrazione_form input[type="submit"]:hover{
-    background-color: #c3def1;
-    transform: scale(1.05);
+/* Hover bottone */
+.registrazione_form input[type="submit"]:hover {
+    background: #ffffff;
+    transform: scale(1.01);
 }
 
-body{
-    text-align: center;
-    margin: 0;
-}
-
-/* Contenitore link */
+/* Link login */
 .links {
-    margin-top: 10px;  
-    font-size: 20px;
-    display: flex;      
-    flex-direction: column;
-    gap: 10px;          
-    align-items: center; 
-}
+    grid-column: 1 / 3;
 
-/* Stile singoli link */
-a {
-    color: #000000;       /* bianco per contrasto sullo sfondo azzurro */
+    text-align: center;
+
+    color: #000000;
     text-decoration: none;
     font-weight: bold;
-    transition: color 0.3s;
+
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+
+    transition: 0.2s;
 }
- a:hover {
-    color: #003366;       /* blu scuro al passaggio del mouse */
+
+.links:hover {
+    color: #1a1a1a;
     text-decoration: underline;
-    cursor: pointer;
+}
+
+/* Titolo */
+.title {
+    color: #000000;
+    font-size: 55px;
+    font-weight: bold;
+    letter-spacing: 1px;
+
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+
+    margin-bottom: 30px;
+}
+
+/* Campo classe centrato */
+.full-width {
+    grid-column: 1 / 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Mantiene label e select allineati bene */
+.full-width label,
+.full-width select {
+    width: 260px;
+}
+
+/* Messaggi input */
+.input_message {
+    margin-top: 6px;
+
+    font-size: 13px;
+
+    font-weight: bold;
+
+    min-height: 18px;
+
+    color: #8b0000;
 }

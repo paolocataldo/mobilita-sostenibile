@@ -3,7 +3,10 @@ session_start();
 include "../config.php";
 
 if (!isset($_POST['username']) || !isset($_POST['password'])) {
-    die("Compila tutti i campi!");
+
+    $_SESSION['errore_login'] = "Compila tutti i campi!";
+    header("Location: ../pages/login.php");
+    exit();
 }
 
 $username = mysqli_real_escape_string($conn, $_POST['username']);
@@ -18,7 +21,10 @@ $sql = "SELECT id, username, ruolo
 $query = mysqli_query($conn, $sql);
 
 if (!$query) {
-    die("Errore query: " . mysqli_error($conn));
+
+    $_SESSION['errore_login'] = "Errore durante il login.";
+    header("Location: ../pages/login.php");
+    exit();
 }
 
 $result = mysqli_fetch_assoc($query);
@@ -30,21 +36,29 @@ if ($result) {
     $_SESSION['ruolo'] = $result['ruolo'];
     $_SESSION['LOGGED'] = true;
 
-    // CONTROLLO RUOLO
     if ($result['ruolo'] == 'd') {
-        header("Location: ../pages/pagina_privata.php"); // docente
+
+        header("Location: ../pages/pagina_privata.php");
         exit();
+
     } 
     else if ($result['ruolo'] == 's') {
-        header("Location: ../pages/pag_priv2.php"); // studente
+
+        header("Location: ../pages/pag_priv2.php");
         exit();
+
     } 
     else {
-        echo "Ruolo non valido!";
+
+        $_SESSION['errore_login'] = "Ruolo non valido.";
+        header("Location: ../pages/login.php");
+        exit();
     }
 
 } else {
-    echo "Credenziali errate o account non attivato";
-    echo '<br><a href="../pages/login.php">Riprova login</a>';
+
+    $_SESSION['errore_login'] = "Credenziali errate o account non attivato.";
+    header("Location: ../pages/login.php");
+    exit();
 }
 ?>

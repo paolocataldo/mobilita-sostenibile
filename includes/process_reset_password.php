@@ -33,16 +33,27 @@ if(!$result){
 
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
     <meta charset="UTF-8">
     <title>Password aggiornata</title>
     <link rel="stylesheet" href="../css/process_reset_password.css">
 </head>
+
 <body class="success_page">
 
-<p><?php echo $messaggio; ?></p>
+    <h1>Password aggiornata</h1>
 
-<a href="../pages/login.php" class="btn">Vai al login</a>
+    <div class="success_box">
+
+        <p><?php echo $messaggio; ?></p>
+
+        <a href="../pages/login.php" class="btn">
+            Vai al login
+        </a>
+
+    </div>
 
 </body>
+
 </html>

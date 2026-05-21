@@ -34,8 +34,19 @@ if (!$query) {
 </head>
 <body class="activation_page">
 
-<p>Account attivato.</p>
-<a href="../pages/login.php" id="login">Torna al login</a>
+    <h1>Account Attivato</h1>
+
+    <div class="activation_box">
+
+        <p>
+            Il tuo account è stato attivato correttamente.
+        </p>
+
+        <a href="../pages/login.php" id="login">
+            Torna al login
+        </a>
+
+    </div>
 
 </body>
 </html>

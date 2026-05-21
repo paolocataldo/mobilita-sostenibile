@@ -1,66 +1,137 @@
+body {
+  text-align: center;
+  margin: 0;
+}
+
 .login_form {
-    background-image: url("../images/co2.jpg");
-    background-size: cover;      /* riempie tutto */
-    background-position: center;
-    min-height: 100vh;           /* ALTEZZA A TUTTA PAGINA */               
-    box-sizing: border-box;
-    padding-top: 200px;
-    font-size: 25px;
-    font-family: Arial, Helvetica, sans-serif;
+  background-image: url("../images/co2.jpg");
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding-top: 100px;
+  font-size: 16px;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-.login_form label{
-    color: #000000;            /* Colore del testo */
-    font-weight: bold;      /* Grassetto */
-    display: block;         /* Fa andare il label su una riga separata */
+.login_form form {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 12px;
+  padding: 2rem 2.5rem;
+  text-align: left;
 }
+
+.login_title {
+  color: #000000;
+  font-size: 60px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  margin-bottom: 0.25rem;
+}
+
+.login_subtitle {
+  color: rgba(0, 0, 0, 0.75);
+  font-size: 25px;
+  margin-bottom: 1.75rem;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+.login_form label {
+  color: #000000;
+  font-weight: bold;
+  display: block;
+  font-size: 16px;
+  margin-bottom: 4px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
 .login_form input[type="text"],
-.login_form input[type="password"] {      
-    font-size: 18px;     /* Dimensione del testo dentro l'input */
-    padding: 12px;       /* Spazio interno per rendere l'input più alto */
-    border-radius: 6px;  /* Angoli arrotondati */
-    border: 1px solid #ccc;
+.login_form input[type="password"] {
+  font-size: 15px;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 1rem;
+  background: rgba(255, 255, 255, 0.92);
+  color: #222;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.login_form input[type="submit"]{
-  width: 100px;
-  padding: 5px; /* Aumenta l'altezza e lo spazio interno */
+.login_form input[type="text"]:focus,
+.login_form input[type="password"]:focus {
+  border-color: #fff;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+  background: #fff;
+}
+
+.login_form input[type="submit"] {
+  width: 100%;
+  padding: 10px;
   font-size: 15px;
   font-weight: bold;
-  border-radius: 8px;  /* Angoli arrotondati */
-  cursor: pointer;   /* Cambia il cursore al passaggio del mouse */
+  border-radius: 8px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  color: #1a3a28;
+  transition: background 0.2s, transform 0.1s;
 }
 
 .login_form input[type="submit"]:hover {
-    background-color: #c3def1; /* Cambia colore quando ci passi sopra */
-    transform: scale(1.05);    /* Leggero ingrandimento al passaggio del mouse */
+  background: #ffffff;
+  transform: scale(1.02);
 }
 
-body{
-  text-align: center;
-   margin: 0;
-}
-
-/* Contenitore link */
 .links {
-    margin-top: 30px;  
-    font-size: 15px;
-    display: flex;      
-    flex-direction: column;
-    gap: 10px;          
-    align-items: center; 
+  margin-top: 1.25rem;
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
 }
 
-/* Stile singoli link */
 .links a {
-    color: #000000;       /* bianco per contrasto sullo sfondo azzurro */
-    text-decoration: none;
-    font-weight: bold;
-    transition: color 0.3s;
+  color: #000000;
+  text-decoration: none;
+  font-weight: bold;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  transition: color 0.2s;
 }
 
 .links a:hover {
-    color: #003366;       /* blu scuro al passaggio del mouse */
-    text-decoration: underline;
-    cursor: pointer;
+  color: #1c1d1d;
+  text-decoration: underline;
+}
+
+.error_container {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.error_message {
+    display: inline-block;
+
+    padding: 12px 18px;
+
+    border-radius: 10px;
+
+    background: rgba(255, 0, 0, 0.15);
+
+    border: 1px solid rgba(255, 0, 0, 0.3);
+
+    color: #7a0000;
+
+    font-weight: bold;
+
+    backdrop-filter: blur(4px);
 }

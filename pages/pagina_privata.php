@@ -27,6 +27,8 @@ JOIN indirizzi i ON c.id_indirizzo = i.id
 
 <head>
     <link rel="stylesheet" href="../css/pagina_privata.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../js/grafici.js" defer></script>
 </head>
 
 <body class="private_page">
@@ -110,6 +112,34 @@ JOIN indirizzi i ON c.id_indirizzo = i.id
                 <button type="submit">Visualizza Classifica</button>
 
             </form>
+
+            <div class="grafici_section">
+
+                <h2>Statistiche ambientali</h2>
+
+                <div class="grafici_buttons">
+
+                    <button type="button"
+                        onclick="caricaGrafico('mezzi')">
+
+                        Mezzi più usati
+                    </button>
+
+                    <button type="button"
+                        onclick="caricaGrafico('impatto')">
+
+                        Impatto ambientale
+                    </button>
+
+                </div>
+
+                <div class="chart_container">
+
+                    <canvas id="myChart"></canvas>
+
+                </div>
+
+            </div>
 
         </div>
 

@@ -17,7 +17,7 @@ $messaggio = "Se l'email esiste, riceverai un link per il reset."; // più sicur
 
 if(mysqli_affected_rows($conn)){
     $mail = require __DIR__ . "/mailer.php";
-    $mail->setFrom($_ENV['SMTP_USER'], "Paolo Cataldo");
+    $mail->setFrom($_ENV['SMTP_USER'], "Sistema Scuola");
     $mail->addAddress($email);
     $mail->Subject = "Reset Password";
 

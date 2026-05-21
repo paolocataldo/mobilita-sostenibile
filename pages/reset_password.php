@@ -25,21 +25,48 @@ if (strtotime($result["reset_token_expires_at"]) <= time()){
     <head>
     <title>Reset Password</title>
     <link rel="stylesheet" href="../css/reset_password.css">
-    <script src="../js/nuova_password.js"></script>
+    <script src="../js/nuova_password.js" defer></script>
 </head>
 
 <body class="reset_form">
-        <h1>Reset Password</h1>
 
-        <form method="POST" action="../includes/process_reset_password.php" onsubmit="return nuovaPassword()">
-            <input type="hidden" name="token" value="<?=  htmlspecialchars($token) ?>">
-            <label for="password">Nuova password</label>
-            <input type="password" id="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
+    <h1>Reset Password</h1>
 
-            <label for="conferma_password">Conferma password</label>
-            <input type="password" id="conferma_password" name="conferma_password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required> <br>
-            
-            <button>Invia</button>
-        </form>
-    </body>
+    <p class="subtitle">
+        Inserisci una nuova password sicura per completare il ripristino dell’account.
+    </p>
+
+    <form method="POST" action="../includes/process_reset_password.php" onsubmit="return nuovaPassword()">
+
+        <input type="hidden" name="token" value="<?= htmlspecialchars($token) ?>">
+
+        <label for="password">Nuova password</label>
+
+        <input 
+            type="password" 
+            id="password" 
+            name="password"
+            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+            required
+        >
+
+        <div class="input_message" id="password_message"></div>
+
+        <label for="conferma_password">Conferma password</label>
+
+        <input 
+            type="password" 
+            id="conferma_password" 
+            name="conferma_password"
+            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+            required
+        >
+
+        <div class="input_message" id="conferma_password_message"></div>
+
+        <button>Invia</button>
+
+    </form>
+
+</body>
 </html>
