@@ -35,6 +35,7 @@ if ($result) {
     $_SESSION['id_utente'] = $result['id'];
     $_SESSION['ruolo'] = $result['ruolo'];
     $_SESSION['LOGGED'] = true;
+    
 
     if ($result['ruolo'] == 'd') {
 
@@ -48,6 +49,10 @@ if ($result) {
         exit();
 
     } 
+    else if ($result['ruolo'] == 'a'){
+        header("Location: ../pages/pagina_privata_admin.php");
+        exit();
+    }
     else {
 
         $_SESSION['errore_login'] = "Ruolo non valido.";
