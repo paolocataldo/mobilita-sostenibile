@@ -275,3 +275,37 @@ body {
         width: 100%;
     }
 }
+
+/* =========================
+   RADIO BUTTON FIX ALIGNMENT
+========================= */
+
+.radio-option {
+    display: flex;
+    align-items: center;   /* ← fondamentale */
+    gap: 10px;
+
+    padding: 6px 8px;
+
+    border-radius: 8px;
+}
+
+/* radio input */
+.radio-option input[type="radio"] {
+    margin: 0;
+
+    width: 18px;
+    height: 18px;
+
+    accent-color: #14532d;
+
+    /* FIX VERTICALE */
+    position: relative;
+    top: 1px;
+}
+
+/* testo label */
+.radio-option {
+    font-size: 15px;
+    line-height: 1.2;
+}

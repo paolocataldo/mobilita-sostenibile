@@ -2,90 +2,154 @@
 include "../config.php";
 session_start();
 
-/* CONTROLLO LOGIN */
 if (!isset($_SESSION['id_utente'])) {
-    die("Errore: utente non loggato");
+    die("Non loggato");
 }
 
-$id_utente = $_SESSION['id_utente'];
+$id_utente = intval($_SESSION['id_utente']);
 
-/* DATI FORM */
-$data = $_POST['data'];
-$id_mezzo = intval($_POST['mezzo']);
-$km = floatval($_POST['km']);
-$passeggeri = intval($_POST['passeggeri']);
+/* INPUT */
+$data = $_POST['data'] ?? null;
+$id_mezzo = intval($_POST['mezzo'] ?? 0);
+$km = floatval($_POST['km'] ?? 0);
 
-/*CONTROLLO: 1 spostamento al giorno */
-$check = "
-SELECT v.id
-FROM viaggi v
-JOIN studenti_viaggi sv ON v.id = sv.id_viaggio
-WHERE sv.id_studente = $id_utente
-AND v.data = '$data'
-";
+$passeggeri = intval($_POST['passeggeri'] ?? 1);
 
-$res_check = mysqli_query($conn, $check);
+$viaggio_condiviso = isset($_POST['viaggio_condiviso']);
+$utente_condiviso = trim($_POST['utente_condiviso'] ?? '');
 
-if (mysqli_num_rows($res_check) > 0) {
-    header("Location: ../pages/pag_priv2.php?error=already");
-    exit();
-}
+$riempimento_bus = $_POST['riempimento_bus'] ?? null;
+$riempimento_treno = $_POST['riempimento_treno'] ?? null;
+
+/* CHECK */
+if (!$data) die("Data mancante");
+if ($id_mezzo <= 0) die("Mezzo non valido");
 
 /* MEZZO */
 $res = mysqli_query($conn, "SELECT nome FROM mezzi WHERE id = $id_mezzo");
 $row = mysqli_fetch_assoc($res);
 
-if (!$row) {
-    die("Mezzo non valido");
+if (!$row) die("Mezzo non trovato");
+
+$mezzo = strtolower(trim($row['nome']));
+
+/* COMPAGNO */
+$id_compagno = null;
+
+if ($viaggio_condiviso && $utente_condiviso != '') {
+
+    $username = mysqli_real_escape_string($conn, $utente_condiviso);
+
+    $resU = mysqli_query($conn,
+        "SELECT id FROM utenti WHERE username='$username' AND ruolo='s'"
+    );
+
+    if (mysqli_num_rows($resU) == 0) {
+        die("Utente non trovato");
+    }
+
+    $id_compagno = mysqli_fetch_assoc($resU)['id'];
+
+    if ($id_compagno == $id_utente) {
+        die("Non puoi condividere con te stesso");
+    }
 }
 
-$mezzo = strtolower($row['nome']);
-
 /* CO2 */
-function getCO2($mezzo) {
+function getCO2($mezzo, $bus, $treno)
+{
     switch ($mezzo) {
+
         case "auto benzina": return 120;
         case "auto diesel": return 110;
         case "auto ibrida": return 80;
         case "auto elettrica": return 0;
-        case "autobus": return 70;
-        case "treno": return 40;
+
+        case "autobus":
+            if ($bus == "vuoto") return 120;
+            if ($bus == "poco") return 90;
+            if ($bus == "medio") return 60;
+            if ($bus == "tanto") return 30;
+            return 70;
+
+        case "treno":
+            if ($treno == "vuoto") return 60;
+            if ($treno == "medio") return 40;
+            if ($treno == "pieno") return 25;
+            return 40;
+
         case "scooter": return 90;
+
         case "bici":
-        case "a piedi": return 0;
-        default: return 0;
+        case "a piedi":
+            return 0;
+
+        default:
+            return 0;
     }
 }
 
-$co2 = $km * getCO2($mezzo);
+$co2 = $km * getCO2($mezzo, $riempimento_bus, $riempimento_treno);
 
-if ($passeggeri > 0) {
-    $co2 = $co2 / $passeggeri;
+/* PASSEGGERI SOLO PER AUTO/SCOOTER */
+if ($id_mezzo != 15 && $id_mezzo != 16) {
+    if ($passeggeri > 1) {
+        $co2 = $co2 / $passeggeri;
+    }
 }
 
-/* INSERIMENTO VIAGGIO */
-$sql = "
-INSERT INTO viaggi (data, distanza_km, passeggeri, co2, id_mezzo)
-VALUES ('$data', $km, $passeggeri, $co2, $id_mezzo)
-";
-
-if (!mysqli_query($conn, $sql)) {
-    die("Errore viaggi: " . mysqli_error($conn));
+/* CONDIVISO */
+if ($viaggio_condiviso) {
+    $co2 = $co2 / 2;
 }
 
-$id_viaggio = mysqli_insert_id($conn);
-
-/* COLLEGAMENTO STUDENTE - VIAGGIO */
-$sql2 = "
-INSERT INTO studenti_viaggi (id_studente, id_viaggio)
-VALUES ($id_utente, $id_viaggio)
-";
-
-if (!mysqli_query($conn, $sql2)) {
-    die("Errore studenti_viaggi: " . mysqli_error($conn));
+/* FORZA COERENZA */
+if ($id_mezzo == 15 || $id_mezzo == 16) {
+    $passeggeri = 1;
 }
 
-/* SUCCESSO */
+/* INSERT */
+$conn->begin_transaction();
+
+try {
+
+    $sql = "
+    INSERT INTO viaggi
+    (data, distanza_km, passeggeri, co2, id_mezzo, riempimento_bus, riempimento_treno)
+    VALUES
+    (
+        '$data',
+        $km,
+        $passeggeri,
+        $co2,
+        $id_mezzo,
+        " . ($riempimento_bus ? "'$riempimento_bus'" : "NULL") . ",
+        " . ($riempimento_treno ? "'$riempimento_treno'" : "NULL") . "
+    )";
+
+    if (!mysqli_query($conn, $sql)) {
+        throw new Exception(mysqli_error($conn));
+    }
+
+    $id_viaggio = mysqli_insert_id($conn);
+
+    mysqli_query($conn,
+        "INSERT INTO studenti_viaggi VALUES ($id_utente, $id_viaggio)"
+    );
+
+    if ($id_compagno) {
+        mysqli_query($conn,
+            "INSERT INTO studenti_viaggi VALUES ($id_compagno, $id_viaggio)"
+        );
+    }
+
+    $conn->commit();
+
+} catch (Exception $e) {
+    $conn->rollback();
+    die("Errore: " . $e->getMessage());
+}
+
 header("Location: ../pages/pag_priv2.php?success=1");
 exit();
 ?>
