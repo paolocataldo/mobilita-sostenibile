@@ -7,195 +7,97 @@ if (!isset($_SESSION['username'])) {
     exit();
 }
 
-/* MEZZI */
 $mezzi = mysqli_query($conn, "SELECT id, nome FROM mezzi");
 
-/* UTENTI per ricerca */
-$utenti = mysqli_query($conn, "SELECT username FROM utenti");
+$mezzi_arr = [];
+while ($row = mysqli_fetch_assoc($mezzi)) {
+    $mezzi_arr[] = $row;
+}
 ?>
 
 <!DOCTYPE html>
 <html>
-
 <head>
     <link rel="stylesheet" href="../css/pag_priv2.css">
+    <script>
+        const mezziOptions = <?= json_encode($mezzi_arr) ?>;
+    </script>
 </head>
 
 <body class="private_page">
 
 <div class="top_bar">
-    <h1>Benvenuto <?= $_SESSION['username'] ?></h1>
-    <a href="../includes/logout.php" class="logout_btn">Logout</a>
+    <h1>Benvenuto <?= htmlspecialchars($_SESSION['username']) ?></h1>
+    <div style="display:flex; gap:12px;">
+        <a href="profilo.php" class="logout_btn">Il mio profilo</a>
+        <a href="../includes/logout.php" class="logout_btn">Logout</a>
+    </div>
 </div>
 
 <div class="container">
-
     <div class="main_card">
 
         <h2>Inserisci spostamento giornaliero</h2>
 
-            <form action="../includes/insert_spostamento.php" method="POST">
+        <form action="../includes/insert_spostamento.php" method="POST">
 
-        <!-- DATA -->
-        <div class="field">
-            <label>Data</label>
-            <input type="date" name="data" required>
-        </div>
-
-        <!-- MEZZO -->
-        <div class="field">
-            <label>Mezzo</label>
-            <select name="mezzo" id="mezzo" required>
-                <option value="" disabled selected>Seleziona mezzo</option>
-
-                <?php while ($row = mysqli_fetch_assoc($mezzi)): ?>
-                    <option value="<?= $row['id'] ?>">
-                        <?= $row['nome'] ?>
-                    </option>
-                <?php endwhile; ?>
-            </select>
-        </div>
-
-        <!-- KM -->
-        <div class="field">
-            <label>Km</label>
-            <input type="number" name="km" min="0" step="0.1" required>
-        </div>
-
-        <!-- CONDIVISO -->
-        <div class="field">
-            <label>
-                <input type="checkbox" id="viaggio_condiviso" name="viaggio_condiviso">
-                Viaggio condiviso
-            </label>
-        </div>
-
-        <div class="field" id="utenteCondivisoField" style="display:none;">
-            <label>Compagno</label>
-            <input type="text" name="utente_condiviso">
-        </div>
-
-        <!-- PASSEGGERI -->
-        <div class="field">
-            <label>Passeggeri</label>
-            <input type="number" name="passeggeri" id="passeggeri" min="1" value="1">
-        </div>
-
-        <!-- AUTOBUS -->
-        <div class="field" id="riempimentoBusField" style="display:none;">
-            <label>Riempimento autobus</label>
-
-            <div class="radio-group">
-
-                <label class="radio-option">
-                    <input type="radio" name="riempimento_bus" value="vuoto">
-                    Vuoto
-                </label>
-
-                <label class="radio-option">
-                    <input type="radio" name="riempimento_bus" value="poco">
-                    Poco
-                </label>
-
-                <label class="radio-option">
-                    <input type="radio" name="riempimento_bus" value="medio">
-                    Medio
-                </label>
-
-                <label class="radio-option">
-                    <input type="radio" name="riempimento_bus" value="tanto">
-                    Molto
-                </label>
-
-            </div>
-        </div>
-
-        <!-- TRENO -->
-        <div class="field" id="riempimentoTrenoField" style="display:none;">
-            <label>Riempimento treno</label>
-
-            <div class="radio-group">
-
-                <label class="radio-option">
-                    <input type="radio" name="riempimento_treno" value="vuoto">
-                    Vuoto
-                </label>
-
-                <label class="radio-option">
-                    <input type="radio" name="riempimento_treno" value="medio">
-                    Medio
-                </label>
-
-                <label class="radio-option">
-                    <input type="radio" name="riempimento_treno" value="pieno">
-                    Pieno
-                </label>
-
-            </div>
-        </div>
-
-        <button type="submit">Salva</button>
-
-
-            <!-- MESSAGGI -->
-            <?php if (isset($_GET['success'])): ?>
-                <p class="msg success">Spostamento salvato con successo!</p>
-            <?php endif; ?>
-
-            <?php if (isset($_GET['error']) && $_GET['error'] == 'already'): ?>
-                <p class="msg error">Hai già inserito uno spostamento per oggi.</p>
-            <?php elseif (isset($_GET['error'])): ?>
-                <p class="msg error">Errore nel salvataggio dello spostamento.</p>
-            <?php endif; ?>
-
-        </form>
-
+    <div class="field">
+        <label>Data</label>
+        <input type="date" name="data" required
+            min="<?= date('Y-m-d') ?>"
+            max="<?= date('Y-m-d') ?>"
+            value="<?= date('Y-m-d') ?>">
     </div>
 
+    <h3>Tratte</h3>
+
+    <div id="tratteContainer">
+        <div class="tratta">
+            <div class="field">
+                <label>Mezzo</label>
+                <select name="tratte[0][mezzo]" required>
+                    <?php foreach ($mezzi_arr as $row): ?>
+                        <option value="<?= $row['id'] ?>">
+                            <?= htmlspecialchars($row['nome']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div class="row-2">
+                <div class="field">
+                    <label>Km</label>
+                    <input type="number" name="tratte[0][km]" step="0.1" min="0.1" required>
+                </div>
+                <div class="field">
+                    <label>Passeggeri</label>
+                    <input type="number" name="tratte[0][passeggeri]" min="1" value="1">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button type="button" id="addTratta">+ Aggiungi tratta</button>
+    <button type="submit">Salva</button>
+
+</form>
+
+        <?php if (isset($_GET['error']) && $_GET['error'] == 'data'): ?>
+            <p class="msg error">Puoi inserire solo spostamenti di oggi.</p>
+        <?php endif; ?>
+        <?php if (isset($_GET['success'])): ?>
+            <p class="msg success">Spostamento salvato con successo!</p>
+        <?php endif; ?>
+
+        <?php if (isset($_GET['error']) && $_GET['error'] == 'already'): ?>
+            <p class="msg error">Hai già inserito uno spostamento per oggi.</p>
+        <?php elseif (isset($_GET['error'])): ?>
+            <p class="msg error">Errore nel salvataggio dello spostamento.</p>
+        <?php endif; ?>
+        
+
+    </div>
 </div>
 
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-
-    const mezzo = document.getElementById("mezzo");
-    const viaggio = document.getElementById("viaggio_condiviso");
-
-    const utenteField = document.getElementById("utenteCondivisoField");
-    const busField = document.getElementById("riempimentoBusField");
-    const trenoField = document.getElementById("riempimentoTrenoField");
-    const passeggeriField = document.getElementById("passeggeri").parentElement;
-
-    function aggiornaUI() {
-
-        const v = mezzo.value;
-
-        // RESET TUTTO
-        busField.style.display = "none";
-        trenoField.style.display = "none";
-        passeggeriField.style.display = "block";
-
-        // 🚌 AUTOBUS
-        if (v == "15") {
-            busField.style.display = "block";
-            passeggeriField.style.display = "none";
-        }
-
-        // 🚆 TRENO
-        if (v == "16") {
-            trenoField.style.display = "block";
-            passeggeriField.style.display = "none";
-        }
-    }
-
-    mezzo.addEventListener("change", aggiornaUI);
-
-    viaggio.addEventListener("change", function () {
-        utenteField.style.display = this.checked ? "block" : "none";
-    });
-
-    aggiornaUI();
-});
-</script>
-
+<script src="../js/tratte.js"></script>
 </body>
 </html>

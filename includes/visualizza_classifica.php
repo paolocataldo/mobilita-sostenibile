@@ -18,11 +18,11 @@ $classe = $_POST['classe'] ?? "";
 $query = "
 SELECT 
     u.username,
-    SUM(v.distanza_km * m.co2_per_km) AS co2_totale
+    SUM(t.co2) AS co2_totale
 FROM utenti u
 LEFT JOIN studenti_viaggi sv ON sv.id_studente = u.id
 LEFT JOIN viaggi v ON v.id = sv.id_viaggio
-LEFT JOIN mezzi m ON m.id = v.id_mezzo
+LEFT JOIN tratte t ON t.id_viaggio = v.id
 LEFT JOIN classi c ON c.id = u.id_classe
 WHERE 1
 ";
@@ -36,7 +36,7 @@ if ($anno != "") {
 }
 
 if ($mezzo != "") {
-    $query .= " AND v.id_mezzo = $mezzo";
+    $query .= " AND t.id_mezzo = $mezzo";
 }
 
 if ($studente != "") {
@@ -47,9 +47,8 @@ if ($classe != "") {
     $query .= " AND c.id = $classe";
 }
 
-/* GROUP BY + ORDER */
 $query .= "
-GROUP BY u.id
+GROUP BY u.id, u.username
 ORDER BY co2_totale ASC
 ";
 
