@@ -339,3 +339,25 @@ tr:hover td {
 
     max-height: 450px;
 }
+
+.classification_select form {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px 20px;
+    align-items: end; /* migliora allineamento verticale */
+}
+
+/* select sempre larga 100% */
+.field select {
+    width: 100%;
+}
+
+/* gli hr devono occupare tutta la riga */
+.classification_select hr {
+    grid-column: 1 / -1;
+    width: 100%;
+    border: 0;
+    height: 1px;
+    background: rgba(15, 23, 42, 0.2);
+    margin: 10px 0;
+}

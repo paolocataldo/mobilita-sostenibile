@@ -55,7 +55,7 @@ while ($row = mysqli_fetch_assoc($mezzi)) {
         <div class="tratta">
             <div class="field">
                 <label>Mezzo</label>
-                <select name="tratte[0][mezzo]" required>
+                <select name="tratte[0][mezzo]" class="mezzo-select" required onchange="aggiornaCampiTratta(this)">
                     <?php foreach ($mezzi_arr as $row): ?>
                         <option value="<?= $row['id'] ?>">
                             <?= htmlspecialchars($row['nome']) ?>
@@ -68,9 +68,18 @@ while ($row = mysqli_fetch_assoc($mezzi)) {
                     <label>Km</label>
                     <input type="number" name="tratte[0][km]" step="0.1" min="0.1" required>
                 </div>
-                <div class="field">
+                <div class="field passeggeri-field">
                     <label>Passeggeri</label>
                     <input type="number" name="tratte[0][passeggeri]" min="1" value="1">
+                </div>
+                <div class="field riempimento-field" style="display:none">
+                    <label>Riempimento</label>
+                    <select name="tratte[0][riempimento]">
+                        <option value="vuoto">Vuoto</option>
+                        <option value="poco">Poco</option>
+                        <option value="medio" selected>Medio</option>
+                        <option value="tanto">Tanto</option>
+                    </select>
                 </div>
             </div>
         </div>

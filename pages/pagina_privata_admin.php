@@ -221,6 +221,9 @@ ORDER BY v.data DESC, v.id, t.id
         <?php if (isset($_GET['error']) && $_GET['error'] == 'db'): ?>
             <p class="msg error">Errore database.</p>
         <?php endif; ?>
+        <?php if (isset($_GET['success']) && $_GET['success'] == 'delete_trip'): ?>
+            <p class="msg success">Tratta eliminata con successo!</p>
+        <?php endif; ?>
 
     </div>
 
