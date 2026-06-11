@@ -47,6 +47,7 @@ function getCO2($mezzo) {
         case "autobus": return 70;
         case "treno": return 40;
         case "scooter": return 90;
+        case "moto": return 100;
         case "bici":
         case "a piedi":
             return 0;
