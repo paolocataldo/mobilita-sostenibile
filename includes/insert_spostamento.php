@@ -40,9 +40,9 @@ if (mysqli_num_rows($check) > 0) {
 /* CO2 */
 function getCO2($mezzo) {
     switch ($mezzo) {
-        case "auto benzina": return 120;
-        case "auto diesel": return 110;
-        case "auto ibrida": return 80;
+        case "auto benzina": return 160;
+        case "auto diesel": return 140;
+        case "auto ibrida": return 120;
         case "auto elettrica": return 0;
         case "autobus": return 70;
         case "treno": return 40;
