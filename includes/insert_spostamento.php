@@ -38,23 +38,7 @@ if (mysqli_num_rows($check) > 0) {
 
 
 /* CO2 */
-function getCO2($mezzo) {
-    switch ($mezzo) {
-        case "auto benzina": return 160;
-        case "auto diesel": return 140;
-        case "auto ibrida": return 120;
-        case "auto elettrica": return 0;
-        case "autobus": return 70;
-        case "treno": return 40;
-        case "scooter": return 90;
-        case "moto": return 100;
-        case "bici":
-        case "a piedi":
-            return 0;
-        default:
-            return 0;
-    }
-}
+
 
 $conn->begin_transaction();
 
@@ -75,12 +59,12 @@ try {
         $id_mezzo = intval($t['mezzo']);
         $km = floatval($t['km']);
 
-        $res = mysqli_query($conn, "SELECT nome FROM mezzi WHERE id=$id_mezzo");
-        $row = mysqli_fetch_assoc($res);
+       $res = mysqli_query($conn," SELECT nome, co2_per_km FROM mezzi WHERE id = $id_mezzo");
+    $row = mysqli_fetch_assoc($res);
         if (!$row) continue;
 
         $mezzo = strtolower($row['nome']);
-        $co2_per_km = getCO2($mezzo);
+        $co2_per_km = floatval($row['co2_per_km']);
 
         $riempimento_bus   = null;
         $riempimento_treno = null;
