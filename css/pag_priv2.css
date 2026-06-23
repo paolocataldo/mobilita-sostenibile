@@ -5,6 +5,7 @@ body {
     color: #1e293b;
 }
 
+
 /* PAGINA */
 .private_page {
     background-image: url("../images/sfondo_pag_priv.jpg");
@@ -32,6 +33,16 @@ body {
     z-index: 1;
 }
 
+.top_actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.top_logo {
+    height: 50px; /* aumenta o diminuisci a piacere */
+    width: auto;
+}
 /* TOP BAR */
 .top_bar {
     display: flex;

@@ -14,6 +14,8 @@ session_start();
 <body>
     <div class="login_form">
 
+        <img src="../images/avogreen.png" alt="Logo" class="login_logo">
+
         <p class="login_title">Mobilità Sostenibile</p>
         <p class="login_subtitle">Registro spostamenti casa–scuola</p>
 

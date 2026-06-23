@@ -27,11 +27,15 @@ while ($row = mysqli_fetch_assoc($mezzi)) {
 <body class="private_page">
 
 <div class="top_bar">
+    
     <h1>Benvenuto <?= htmlspecialchars($_SESSION['username']) ?></h1>
     <div style="display:flex; gap:12px;">
         <a href="profilo.php" class="logout_btn">Il mio profilo</a>
         <a href="../includes/logout.php" class="logout_btn">Logout</a>
+        <img src="../images/avogreen.png" alt="Logo" class="top_logo">
+        
     </div>
+    
 </div>
 
 <div class="container">
@@ -40,6 +44,8 @@ while ($row = mysqli_fetch_assoc($mezzi)) {
         <h2>Inserisci spostamento giornaliero</h2>
 
         <form action="../includes/insert_spostamento.php" method="POST">
+
+        
 
     <div class="field">
         <label>Data</label>
